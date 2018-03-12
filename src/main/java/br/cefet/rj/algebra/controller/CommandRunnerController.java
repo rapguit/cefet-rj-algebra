@@ -1,6 +1,8 @@
 package br.cefet.rj.algebra.controller;
 
+import br.cefet.rj.algebra.model.Result;
 import br.cefet.rj.algebra.service.MathService;
+import br.cefet.rj.algebra.util.ArraysUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -26,28 +28,16 @@ public class CommandRunnerController implements ApplicationRunner{
             String size = args.get(1);
             String file = args.get(2);
 
-            double result[][] = service.calculate(method, size, file);
+            Result result = service.calculate(method, size, file);
 
             System.out.println("[[ " + method.toUpperCase() + " ]]");
-            System.out.println("Result: ");
-            printMatrix(result);
+            result.getMatrixRegister().forEach( (name, matrix) -> {
+                System.out.println(name+": ");
+                ArraysUtils.printMatrix(matrix);
+            });
             System.out.println("Solution: ");
+            ArraysUtils.printVector(result.getSolution());
 
-            double solution[] = service.solve(result);
-            printVector(solution);
-        }
-    }
-
-    private void printVector(double[] solution) {
-        for (double element : solution) {
-            System.out.printf("%5.1f", element);
-        }
-        System.out.println();
-    }
-
-    private void printMatrix(double[][] matrix) {
-        for (double[] row : matrix) {
-            printVector(row);
         }
     }
 

@@ -1,20 +1,29 @@
 package br.cefet.rj.algebra.service;
 
+import br.cefet.rj.algebra.model.Result;
+import br.cefet.rj.algebra.util.ArraysUtils;
+
 public class GaussMethod implements Method {
 
     @Override
-    public double[][] calculate(double[][] input) {
-        for (int i = 0; i <= input.length - 1; i++) {
-            pivot(input, i);
-            for (int j = i+1; j < input.length; j++) {
-                if (input[j][i] != 0.0) {
-                    double x = getFactor(input[j][i], input[i][i]);
-                    input[j] = operateLine(input[j], input[i], x);
+    public Result calculate(double[][] input) {
+        Result result = new Result();
+        double in[][] = ArraysUtils.copy(input);
+
+        for (int i = 0; i <= in.length - 1; i++) {
+            pivot(in, i);
+            for (int j = i+1; j < in.length; j++) {
+                if (in[j][i] != 0.0) {
+                    double x = getFactor(in[j][i], in[i][i]);
+                    result.registerMultiplier(j, i, x);
+                    in[j] = operateLine(in[j], in[i], x);
                 }
             }
         }
 
-        return input;
+        result.registerMatrix("Result", in);
+        result.setSolution(resolve(in));
+        return result;
     }
 
     private double getFactor(double v1, double v2) {
@@ -44,6 +53,27 @@ public class GaussMethod implements Method {
 
         input[row] = max;
         input[maxIdx] = current;
+    }
+
+    private double[] resolve(double[][] in) {
+        double vectorB[] = ArraysUtils.vectorB(in);
+        double vectorX[] = new double[vectorB.length];
+        double inp[][] = ArraysUtils.copyWithoutB(in);
+
+        for (int i = vectorB.length-1; i >= 0; i--) {
+            for (int j = vectorB.length-1; j > i-1; j--) {
+                if(j == i)inp[i][j] = vectorB[j] / inp[i][j];
+                else inp[i][j] *= vectorB[j];
+            }
+        }
+
+        for (int i = 0; i < vectorB.length; i++) {
+            for (int j = 0; j < i+1; j++) {
+                vectorX[i] += inp[i][j];
+            }
+        }
+
+        return vectorX;
     }
 
 }

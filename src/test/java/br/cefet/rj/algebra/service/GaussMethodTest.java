@@ -1,5 +1,6 @@
 package br.cefet.rj.algebra.service;
 
+import br.cefet.rj.algebra.model.Result;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -24,12 +25,17 @@ public class GaussMethodTest {
                 { 2.0, 1.0, 1.0, -1.0, -3.0 }
         };
 
-        double[][] result = m.calculate(input);
+        Result result = m.calculate(input);
 
-        assertThat(result, equalTo(expected()));
+        assertThat(result.getMatrixRegister().get("Result"), equalTo(expectedMatrix()));
+//        assertThat(result.getSolution(), equalTo(expectedSolution()));
     }
 
-    private double[][] expected() {
+    private double[] expectedSolution() {
+        return new double[] { -1.0, 0.0, 1.0, 2.0 };
+    }
+
+    private double[][] expectedMatrix() {
         return new double[][] {
                 { 2.0, 1.0, 1.0, -1.0, -3.0 },
                 { 0.0, 8.5, 7.5,  4.5, 16.5 },

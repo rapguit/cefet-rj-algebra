@@ -15,10 +15,4 @@ public class MathService {
         double input[][] = FileUtils.load(size, file);
         return factory.get(method).calculate(input);
     }
-
-    public double[] solve(double[][] result) {
-        double solution[] = new double[result.length];
-        solution[solution.length-1] = result[result.length-1][result[0].length-1] / result[result.length-2][result[0].length-2];
-        return solution;
-    }
 }

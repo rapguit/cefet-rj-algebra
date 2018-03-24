@@ -17,30 +17,58 @@ public class GaussMethodTest {
     }
 
     @Test
-    public void calculate() throws Exception {
+    public void calculate_simple() throws Exception {
         double input[][] = new double[][] {
-                {-1.0, 3.0, 5.0,  2.0, 10.0 },
-                { 1.0, 9.0, 8.0,  4.0, 15.0 },
-                { 0.0, 1.0, 0.0,  1.0,  2.0 },
-                { 2.0, 1.0, 1.0, -1.0, -3.0 }
+                {  1.0,  2.0,  1.0,  3.0 },
+                {  2.0, -3.0, -1.0,  4.0 },
+                {  3.0, -1.0, -2.0,  1.0 }
         };
 
         Result result = m.calculate(input);
 
-        assertThat(result.getMatrixRegister().get("Result"), equalTo(expectedMatrix()));
-//        assertThat(result.getSolution(), equalTo(expectedSolution()));
+//        assertThat(result.getMatrixRegister().get("Result"), equalTo(expectedSimpleMatrix()));
+        assertThat(result.getSolution(), equalTo(expectedSimpleSolution()));
+    }
+
+    @Test
+    public void calculate() throws Exception {
+        double input[][] = new double[][] {
+                {  1.0,  1.0,  1.0,  1.0, 1.0,   2.0 },
+                {  1.0, -1.0, -1.0, -1.0, 1.0,   4.0 },
+                {  1.0,  2.0, -1.0,  0.5, 2.0,   6.0 },
+                { -1.0,  1.0,  1.0,  3.0,-1.0,  -6.0 },
+                {  0.5,  1.0,  1.0, -0.5,-7.0, -13.0 }
+        };
+
+        Result result = m.calculate(input);
+
+//        assertThat(result.getMatrixRegister().get("Result"), equalTo(expectedMatrix()));
+        assertThat(result.getSolution(), equalTo(expectedSolution()));
     }
 
     private double[] expectedSolution() {
-        return new double[] { -1.0, 0.0, 1.0, 2.0 };
+        return new double[] { 1.0, 0.5, -0.5, -1.0, 2.0 };
     }
 
     private double[][] expectedMatrix() {
         return new double[][] {
-                { 2.0, 1.0, 1.0, -1.0, -3.0 },
-                { 0.0, 8.5, 7.5,  4.5, 16.5 },
-                { 0.0, 0.0, 2.4117647058823533, -0.3529411764705881, 1.7058823529411766 },
-                { 0.0, 0.0, 0.0, 0.3414634146341464, 0.6829268292682926 }
+                { 1.0,  1.0,  1.0,  1.0, 1.0,   2.0 },
+                { 0.0, -2.0, -2.0, -2.0, 0.0,   2.0 },
+                { 0.0,  0.0, -3.0, -1.5, 1.0,   5.0 },
+                { 0.0,  0.0,  0.0,  2.0, 0.0,  -2.0 },
+                { 0.0,  0.0,  0.0,  0.0,-7.5, -15.0 }
+        };
+    }
+
+    private double[] expectedSimpleSolution() {
+        return new double[] { 2.0, -1.0, 3.0 };
+    }
+
+    private double[][] expectedSimpleMatrix() {
+        return new double[][] {
+                { 1.0, 2.0, 1.0, 3.0 },
+                { 0.0,-7.0,-3.0,-2.0 },
+                { 0.0, 0.0,-2.0,-6.0 },
         };
     }
 }

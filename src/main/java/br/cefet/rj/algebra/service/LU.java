@@ -20,7 +20,8 @@ public class LU implements Method {
 
         double a[][] = ArraysUtils.copy(input);
         double u[][] = ArraysUtils.copyWithoutB(gaussResult.getMatrixRegister().get("Result"));
-        double l[][] = calculateL(input, gaussResult.getMultipliers());
+//        double l[][] = calculateL(input, gaussResult.getMultipliers());
+        double l[][] = new double[0][0];
         double vectorB[] = ArraysUtils.vectorB(a);
         double vectorY[] = calculateY(l, vectorB);
         double vectorX[] = calculateX(u, vectorY);

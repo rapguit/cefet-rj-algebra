@@ -11,11 +11,10 @@ public class GaussMethod implements Method {
         double in[][] = ArraysUtils.copy(input);
 
         for (int i = 0; i <= in.length - 1; i++) {
-            pivot(in, i);
+//            pivot(in, i);
             for (int j = i+1; j < in.length; j++) {
                 if (in[j][i] != 0.0) {
                     double x = getFactor(in[j][i], in[i][i]);
-                    result.registerMultiplier(j, i, x);
                     in[j] = operateLine(in[j], in[i], x);
                 }
             }
@@ -27,13 +26,13 @@ public class GaussMethod implements Method {
     }
 
     private double getFactor(double v1, double v2) {
-        return (v1 * -1) / v2;
+        return (v1 / v2) * -1;
     }
 
     private double[] operateLine(double[] lineA, double[] lineB, double factor) {
         double[] result = new double[lineA.length];
         for (int i = 0; i < lineA.length; i++) {
-            result[i] = lineA[i] + factor * lineB[i];
+            result[i] = lineB[i] * factor + lineA[i];
         }
         return result;
     }
@@ -60,18 +59,18 @@ public class GaussMethod implements Method {
         double vectorX[] = new double[vectorB.length];
         double inp[][] = ArraysUtils.copyWithoutB(in);
 
-        for (int i = vectorB.length-1; i >= 0; i--) {
-            for (int j = vectorB.length-1; j > i-1; j--) {
-                if(j == i)inp[i][j] = vectorB[j] / inp[i][j];
-                else inp[i][j] *= vectorB[j];
+        double sum = 0.0;
+
+        for(int j=inp.length-1;j>=0;j--) {
+            sum = vectorB[j];
+
+            for(int k=j+1; k <= inp.length-1; k++) {
+                sum = sum - inp[j][k] * vectorX[k];
             }
+
+            vectorX[j] = sum / inp[j][j];
         }
 
-        for (int i = 0; i < vectorB.length; i++) {
-            for (int j = 0; j < i+1; j++) {
-                vectorX[i] += inp[i][j];
-            }
-        }
 
         return vectorX;
     }

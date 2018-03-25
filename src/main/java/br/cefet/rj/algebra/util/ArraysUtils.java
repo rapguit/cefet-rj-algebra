@@ -12,6 +12,17 @@ public class ArraysUtils {
         return copy;
     }
 
+    public static double[][] copy(Double[][] input) {
+        double copy[][] = new double[input.length][input[0].length];
+        for (int i = 0; i < copy.length; i++) {
+            for (int j = 0; j < copy[0].length; j++) {
+                copy[i][j] = input[i][j];
+            }
+        }
+
+        return copy;
+    }
+
 
     public static double[][] copyWithoutB(double[][] input) {
         double copy[][] = new double[input.length][input.length];
@@ -53,6 +64,12 @@ public class ArraysUtils {
     public static void printMatrix(Double[][] matrix) {
         for (Double[] row : matrix) {
             printVector(unbox(row));
+        }
+    }
+
+    public static void printMatrix(double[][] matrix) {
+        for (double[] row : matrix) {
+            printVector(row);
         }
     }
 

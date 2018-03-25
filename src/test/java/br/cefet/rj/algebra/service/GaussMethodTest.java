@@ -26,7 +26,7 @@ public class GaussMethodTest {
 
         Result result = m.calculate(input);
 
-//        assertThat(result.getMatrixRegister().get("Result"), equalTo(expectedSimpleMatrix()));
+        assertThat(result.getMatrixRegister().get("Result"), equalTo(expectedSimpleMatrix()));
         assertThat(result.getSolution(), equalTo(expectedSimpleSolution()));
     }
 
@@ -42,7 +42,7 @@ public class GaussMethodTest {
 
         Result result = m.calculate(input);
 
-//        assertThat(result.getMatrixRegister().get("Result"), equalTo(expectedMatrix()));
+        assertThat(result.getMatrixRegister().get("Result"), equalTo(expectedMatrix()));
         assertThat(result.getSolution(), equalTo(expectedSolution()));
     }
 

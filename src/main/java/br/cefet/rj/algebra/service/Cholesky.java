@@ -3,42 +3,59 @@ package br.cefet.rj.algebra.service;
 import br.cefet.rj.algebra.model.Result;
 import br.cefet.rj.algebra.util.ArraysUtils;
 
+import static java.lang.Math.pow;
+import static java.lang.Math.sqrt;
+
 public class Cholesky implements Method {
 
 	@Override
 	public Result calculate(double[][] input) {
 		final Result result = new Result();
-		double in[][] = ArraysUtils.copyWithoutB(input);
-		double l[][] = calculateL(in);
-		double lt[][] = transposedOf(l);
+		double a[][] = ArraysUtils.copyWithoutB(input);
+		double g[][] = calculateG(a);
+		double gt[][] = transposedOf(g);
 		double vectorB[] = ArraysUtils.vectorB(input);
-		double vectorY[] = calculateY(l, vectorB);
-		double vectorX[] = calculateX(lt, vectorY);
+		double vectorY[] = calculateY(g, vectorB);
+		double vectorX[] = calculateX(gt, vectorY);
 
 
-		result.registerMatrix("L", l);
-		result.registerMatrix("LT", lt);
+		result.registerMatrix("G", g);
+		result.registerMatrix("GT", gt);
 		result.setSolution(vectorX);
 		return result;
 	}
 
-	private double[][] calculateL(double[][] in) {
-		double l[][] = new double[in.length][in.length];
-		double pivot = 0.0;
+	private double[][] calculateG(double[][] a) {
+		double g[][] = new double[a.length][a.length];
 
-		for (int i = 0; i < l.length; i++) {
+		for (int i = 0; i < g.length; i++) {
 			for (int j = 0; j < i + 1; j++) {
-				if (i == j) pivot = in[i][j];
-				if (i == 0 && j == 0) {
-					pivot = Math.sqrt(in[i][j]);
-					l[i][j] = pivot;
-				} else {
-					l[i][j] = in[i][j] / pivot;
-				}
+				if(i == 0 && j == 0) g[i][j] = sqrt(a[i][j]);
+				if(j == 0 && i != 0) g[i][j] = a[i][j] / g[j][j];
+				if(j < i && j >= 1) g[i][j] = (a[i][j] - sumProd(i, j, g)) / g[j][j];
+				if(i == j && i != 0) g[i][j] = sqrt(a[i][j] - sumDiag(i, g));
 			}
 		}
 
-		return l;
+		return g;
+	}
+
+	private double sumDiag(int i, double[][] g) {
+		double sum = 0.0;
+		for (int k = 0; k <= i-1; k++) {
+			sum += pow(g[i][k], 2);
+		}
+
+		return sum;
+	}
+
+	private double sumProd(int i, int j, double[][] g) {
+		double sum = 0.0;
+		for (int k = 0; k <= j-1; k++) {
+			sum += g[i][k] * g[j][k];
+		}
+
+		return sum;
 	}
 
 	private double[][] transposedOf(double[][] l) {
@@ -48,14 +65,41 @@ public class Cholesky implements Method {
 				transposed[j][i] = l[i][j];
 			}
 		}
+
 		return transposed;
 	}
 
-	private double[] calculateY(double[][] l, double[] vectorB) {
-		return new double[0];
+	private double[] calculateY(double[][] g, double[] vectorB) {
+		double vectorY[] = new double[vectorB.length];
+		double gp[][] = ArraysUtils.copy(g);
+
+		for (int i = 0; i < vectorB.length; i++) {
+			double sum = 0.0;
+			for (int j = 0; j < i+1; j++) {
+				if(i != 0 && i != j) sum = sum - vectorY[j] * gp[i][j];
+				else sum += vectorB[i];
+
+				if(i == j)vectorY[i] = sum / g[i][j];
+			}
+		}
+
+		return vectorY;
 	}
 
-	private double[] calculateX(double[][] lt, double[] vectorY) {
-		return new double[0];
+	private double[] calculateX(double[][] gt, double[] vectorY) {
+		double vectorX[] = new double[vectorY.length];
+		double sum = 0.0;
+
+		for(int j=gt.length-1;j>=0;j--) {
+			sum = vectorY[j];
+
+			for(int k=j+1; k <= gt.length-1; k++) {
+				sum = sum - gt[j][k] * vectorX[k];
+			}
+
+			vectorX[j] = sum / gt[j][j];
+		}
+
+		return vectorX;
 	}
 }

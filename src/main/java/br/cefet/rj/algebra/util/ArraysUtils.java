@@ -23,6 +23,15 @@ public class ArraysUtils {
         return copy;
     }
 
+    public static Double[] copy(Double[] input) {
+        Double copy[] = new Double[input.length];
+        for (int i = 0; i < copy.length; i++) {
+            copy[i] = input[i];
+        }
+
+        return copy;
+    }
+
 
     public static double[][] copyWithoutB(double[][] input) {
         double copy[][] = new double[input.length][input.length];
@@ -61,6 +70,13 @@ public class ArraysUtils {
         System.out.println();
     }
 
+    public static void printVectorRaw(double[] solution) {
+        for (double element : solution) {
+            System.out.printf("%5.16f \t", element);
+        }
+        System.out.println();
+    }
+
     public static void printMatrix(Double[][] matrix) {
         for (Double[] row : matrix) {
             printVector(unbox(row));
@@ -83,7 +99,7 @@ public class ArraysUtils {
         return boxed;
     }
 
-    private static double[] unbox(Double[] arr) {
+    public static double[] unbox(Double[] arr) {
         double unboxed[] = new double[arr.length];
         for (int i = 0; i < unboxed.length; i++) {
             unboxed[i] = arr[i];
@@ -91,4 +107,5 @@ public class ArraysUtils {
 
         return unboxed;
     }
+
 }

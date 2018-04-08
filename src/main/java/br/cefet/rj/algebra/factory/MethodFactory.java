@@ -1,13 +1,18 @@
 package br.cefet.rj.algebra.factory;
 
-import br.cefet.rj.algebra.service.Cholesky;
-import br.cefet.rj.algebra.service.GaussMethod;
-import br.cefet.rj.algebra.service.LU;
-import br.cefet.rj.algebra.service.Method;
+import br.cefet.rj.algebra.service.*;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class MethodFactory {
+
+    @Value("${max_it}")
+    private int maxIterations;
+
+    @Value("${err}")
+    private double errThreshold;
+
     public Method get(String method) {
         if(method.equals("gauss")){
             return new GaussMethod();
@@ -17,6 +22,9 @@ public class MethodFactory {
         }
         if(method.equals("cholesky")){
             return new Cholesky();
+        }
+        if(method.equals("jacobi")){
+            return new Jacobi(maxIterations, errThreshold);
         }
 
         throw new IllegalArgumentException("unknown method!");

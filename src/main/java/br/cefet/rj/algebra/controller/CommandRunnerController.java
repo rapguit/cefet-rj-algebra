@@ -2,13 +2,14 @@ package br.cefet.rj.algebra.controller;
 
 import br.cefet.rj.algebra.model.Result;
 import br.cefet.rj.algebra.service.MathService;
-import br.cefet.rj.algebra.util.ArraysUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+
+import static br.cefet.rj.algebra.util.ArraysUtils.*;
 
 @Component
 public class CommandRunnerController implements ApplicationRunner{
@@ -33,10 +34,14 @@ public class CommandRunnerController implements ApplicationRunner{
             System.out.println("[[ " + method.toUpperCase() + " ]]");
             result.getMatrixRegister().forEach( (name, matrix) -> {
                 System.out.println(name+": ");
-                ArraysUtils.printMatrix(matrix);
+                printMatrix(matrix);
+            });
+            result.getVectorRegister().forEach( (name, vector) -> {
+                System.out.println(name+": ");
+                printVectorRaw(unbox(vector));
             });
             System.out.println("Solution: ");
-            ArraysUtils.printVector(result.getSolution());
+            printVector(result.getSolution());
 
         }
     }

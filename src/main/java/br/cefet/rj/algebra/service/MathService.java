@@ -13,6 +13,6 @@ public class MathService {
 
     public Result calculate(String method, String size, String file) {
         double input[][] = FileUtils.load(size, file);
-        return factory.get(method).calculate(input);
+        return factory.get(method).calculateResult(input);
     }
 }

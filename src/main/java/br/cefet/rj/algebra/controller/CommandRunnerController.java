@@ -43,6 +43,9 @@ public class CommandRunnerController implements ApplicationRunner{
             System.out.println("Solution: ");
             printVector(result.getSolution());
 
+            System.out.println("Execution: ");
+            System.out.println("\t time: "+result.getExecTime());
+
         }
     }
 

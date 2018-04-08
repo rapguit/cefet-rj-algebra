@@ -1,13 +1,9 @@
 package br.cefet.rj.algebra.service;
 
-import br.cefet.rj.algebra.model.Result;
-
 import static br.cefet.rj.algebra.util.ArraysUtils.*;
-import static br.cefet.rj.algebra.util.IterativeUtil.convergenceCheck;
-import static br.cefet.rj.algebra.util.IterativeUtil.maxModOf;
-import static br.cefet.rj.algebra.util.IterativeUtil.mod;
+import static br.cefet.rj.algebra.util.IterativeUtil.*;
 
-public class Jacobi implements Method {
+public class Jacobi extends Method {
 
     private int max;
     private double err;
@@ -17,14 +13,12 @@ public class Jacobi implements Method {
         this.err = err;
 
         System.out.println("\t ENV:");
-        System.out.println("\t\t max: " + max);
-        System.out.println("\t\t err: " + err);
+        System.out.println("\t\t max: " + this.max);
+        System.out.println("\t\t err: " + this.err);
     }
 
     @Override
-    public Result calculate(double[][] input) {
-        Result result = new Result();
-
+    public void calculate(double[][] input) {
         double a[][] = copyWithoutB(input);
         double vectorB[] = vectorB(input);
         Double iteractiveX[] = initIteractiveVectorX(vectorB);
@@ -49,7 +43,6 @@ public class Jacobi implements Method {
         }
 
         result.setSolution(unbox(result.getVectorRegister().get("X_"+(iteract-1))));
-        return result;
     }
 
     private double operateLine(int i, double[][] a, double[] b, Double[] x, int iteract) {

@@ -1,16 +1,14 @@
 package br.cefet.rj.algebra.service;
 
-import br.cefet.rj.algebra.model.Result;
 import br.cefet.rj.algebra.util.ArraysUtils;
 
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
 
-public class Cholesky implements Method {
+public class Cholesky extends Method {
 
 	@Override
-	public Result calculate(double[][] input) {
-		final Result result = new Result();
+	public void calculate(double[][] input) {
 		double a[][] = ArraysUtils.copyWithoutB(input);
 		double g[][] = calculateG(a);
 		double gt[][] = transposedOf(g);
@@ -22,7 +20,6 @@ public class Cholesky implements Method {
 		result.registerMatrix("G", g);
 		result.registerMatrix("GT", gt);
 		result.setSolution(vectorX);
-		return result;
 	}
 
 	private double[][] calculateG(double[][] a) {

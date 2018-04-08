@@ -23,7 +23,7 @@ public class CholeskyTest {
 				{ 2.0, 2.0, 6.0,  9.0,  3.0 }
 		};
 
-		Result result = m.calculate(input);
+		Result result = m.calculateResult(input);
 
 //		assertThat(result.getMatrixRegister().get("G"), equalTo(expectedMatrix()));
 //		assertThat(result.getSolution(), equalTo(expectedSolution()));

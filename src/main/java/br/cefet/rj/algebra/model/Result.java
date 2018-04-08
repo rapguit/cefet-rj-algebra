@@ -2,6 +2,7 @@ package br.cefet.rj.algebra.model;
 
 import br.cefet.rj.algebra.util.ArraysUtils;
 
+import java.time.LocalTime;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -9,6 +10,7 @@ public class Result {
     private double solution[];
     private Map<String, Double[][]> matrixRegister;
     private Map<String, Double[]> vectorRegister;
+    private LocalTime execTime;
 
     public Result() {
         this.matrixRegister = new LinkedHashMap<>();
@@ -40,5 +42,13 @@ public class Result {
 
     public void setSolution(double[] solution) {
         this.solution = solution;
+    }
+
+    public void setExecTime(long execTime) {
+        this.execTime = LocalTime.ofNanoOfDay(execTime);
+    }
+
+    public LocalTime getExecTime() {
+        return execTime;
     }
 }

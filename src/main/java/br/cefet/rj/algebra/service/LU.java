@@ -3,12 +3,10 @@ package br.cefet.rj.algebra.service;
 import br.cefet.rj.algebra.model.Result;
 import br.cefet.rj.algebra.util.ArraysUtils;
 
-public class LU implements Method {
+public class LU extends Method {
 
     @Override
-    public Result calculate(double[][] input) {
-        Result result = new Result();
-
+    public void calculate(double[][] input) {
         double a[][] = ArraysUtils.copyWithoutB(input);
         double vectorB[] = ArraysUtils.vectorB(input);
 
@@ -17,7 +15,6 @@ public class LU implements Method {
         double vectorX[] = calculateX(result.getMatrixRegister().get("U"), vectorY);
 
         result.setSolution(vectorX);
-        return result;
     }
 
     private double[] calculateX(Double[][] u, double[] vectorY) {

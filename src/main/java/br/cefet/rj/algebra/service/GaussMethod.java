@@ -1,13 +1,11 @@
 package br.cefet.rj.algebra.service;
 
-import br.cefet.rj.algebra.model.Result;
 import br.cefet.rj.algebra.util.ArraysUtils;
 
-public class GaussMethod implements Method {
+public class GaussMethod extends Method {
 
     @Override
-    public Result calculate(double[][] input) {
-        Result result = new Result();
+    public void calculate(double[][] input) {
         double in[][] = ArraysUtils.copy(input);
 
         for (int i = 0; i <= in.length - 1; i++) {
@@ -22,7 +20,6 @@ public class GaussMethod implements Method {
 
         result.registerMatrix("Result", in);
         result.setSolution(resolve(in));
-        return result;
     }
 
     private double getFactor(double v1, double v2) {

@@ -23,7 +23,7 @@ public class LUTest {
                 {  0.5,  1.0,  1.0, -0.5,-7.0, -13.0 }
         };
 
-        Result result = m.calculate(input);
+        Result result = m.calculateResult(input);
 //        assertThat(result.getSolution(), equalTo(expectedSolution()));
     }
 
@@ -35,7 +35,7 @@ public class LUTest {
                 {  1.0,  1.0,  3.0, -5.0 }
         };
 
-        Result result = m.calculate(input);
+        Result result = m.calculateResult(input);
 //        assertThat(result.getSolution(), equalTo(expectedSimpleSolution()));
     }
 

@@ -25,7 +25,7 @@ public class JacobiTest {
                 {  2.0,  3.0, 10.0,  6.0 }
         };
 
-        Result result = m.calculate(input);
+        Result result = m.calculateResult(input);
         assertThat(result.getVectorRegister().get("X_1"), equalTo(expectedSimpleSolutionX1()));
         assertThat(result.getVectorRegister().get("X_2"), equalTo(expectedSimpleSolutionX2()));
         assertThat(result.getVectorRegister().get("X_3"), equalTo(expectedSimpleSolutionX3()));
@@ -41,7 +41,7 @@ public class JacobiTest {
                 {  2.0,  3.0, 10.0,  6.0 }
         };
 
-        Result result = m.calculate(input);
+        Result result = m.calculateResult(input);
         assertThat(result.getVectorRegister().get("X_1"), equalTo(expectedSimpleSolutionX1()));
         assertThat(result.getVectorRegister().get("X_2"), equalTo(expectedSimpleSolutionX2()));
         assertThat(result.getVectorRegister().get("X_3"), equalTo(expectedSimpleSolutionX3()));

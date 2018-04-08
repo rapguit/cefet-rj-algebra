@@ -26,6 +26,12 @@ public class MethodFactory {
         if(method.equals("jacobi")){
             return new Jacobi(maxIterations, errThreshold);
         }
+        if(method.equals("seidel")){
+            return new Seidel(maxIterations, errThreshold);
+        }
+        if(method.equals("sor")){
+            return new SOR(maxIterations, errThreshold);
+        }
 
         throw new IllegalArgumentException("unknown method!");
     }

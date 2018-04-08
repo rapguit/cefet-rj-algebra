@@ -13,6 +13,9 @@ public class MethodFactory {
     @Value("${err}")
     private double errThreshold;
 
+    @Value("${w}")
+    private double relaxationParam;
+
     public Method get(String method) {
         if(method.equals("gauss")){
             return new GaussMethod();
@@ -30,7 +33,7 @@ public class MethodFactory {
             return new Seidel(maxIterations, errThreshold);
         }
         if(method.equals("sor")){
-            return new SOR(maxIterations, errThreshold);
+            return new SOR(maxIterations, errThreshold, relaxationParam);
         }
 
         throw new IllegalArgumentException("unknown method!");

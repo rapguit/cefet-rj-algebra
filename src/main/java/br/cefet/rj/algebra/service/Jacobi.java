@@ -21,31 +21,31 @@ public class Jacobi extends Method {
     public void calculate(double[][] input) {
         double a[][] = copyWithoutB(input);
         double vectorB[] = vectorB(input);
-        Double iteractiveX[] = initIteractiveVectorX(vectorB);
-        Double previousX[] = copy(iteractiveX);
-        int iteract = 1;
+        Double iterativeX[] = initIteractiveVectorX(vectorB);
+        Double previousX[] = copy(iterativeX);
+        int iteration = 1;
 
         convergenceCheck(a);
 
-        while (iteract < max) {
-            for (int i = 0; i < iteractiveX.length; i++) {
-                iteractiveX[i] = operateLine(i, a, vectorB, previousX, iteract);
+        while (iteration < max) {
+            for (int i = 0; i < iterativeX.length; i++) {
+                iterativeX[i] = operateLine(i, a, vectorB, previousX);
             }
 
-            result.registerInteractionVector(iteractiveX, iteract);
-            iteract++;
+            result.registerInteractionVector(iterativeX, iteration);
+            iteration++;
 
-            if (err >= calculateErr(iteractiveX, previousX)){
+            if (err >= calculateErr(iterativeX, previousX)){
                 break;
             }
 
-            previousX = copy(iteractiveX);
+            previousX = copy(iterativeX);
         }
 
-        result.setSolution(unbox(result.getVectorRegister().get("X_"+(iteract-1))));
+        result.setSolution(unbox(result.getVectorRegister().get("X_"+(iteration-1))));
     }
 
-    private double operateLine(int i, double[][] a, double[] b, Double[] x, int iteract) {
+    private double operateLine(int i, double[][] a, double[] b, Double[]x) {
         double div =  a[i][i];
         double sum = b[i] / div;
 

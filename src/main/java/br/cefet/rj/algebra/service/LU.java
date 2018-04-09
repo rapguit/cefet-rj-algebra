@@ -53,7 +53,7 @@ public class LU extends Method {
         return vectorY;
     }
 
-    private void calculateLU(double[][] a, Result result) {
+    public static void calculateLU(double[][] a, Result result) {
         double u[][] = new double[a.length][a.length];
         double l[][] = new double[a.length][a.length];
         for (int i = 0; i < a.length; i++) {

@@ -38,6 +38,9 @@ public class MethodFactory {
         if(method.equals("pow")){
             return new Pow(maxIterations, errThreshold);
         }
+        if(method.equals("revpow")){
+            return new ReversePow(maxIterations, errThreshold);
+        }
 
         throw new IllegalArgumentException("unknown method!");
     }

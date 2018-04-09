@@ -35,6 +35,9 @@ public class MethodFactory {
         if(method.equals("sor")){
             return new SOR(maxIterations, errThreshold, relaxationParam);
         }
+        if(method.equals("pow")){
+            return new Pow(maxIterations, errThreshold);
+        }
 
         throw new IllegalArgumentException("unknown method!");
     }

@@ -32,6 +32,15 @@ public class ArraysUtils {
         return copy;
     }
 
+    public static double[] copy(double[] input) {
+        double copy[] = new double[input.length];
+        for (int i = 0; i < copy.length; i++) {
+            copy[i] = input[i];
+        }
+
+        return copy;
+    }
+
 
     public static double[][] copyWithoutB(double[][] input) {
         double copy[][] = new double[input.length][input.length];
@@ -95,6 +104,14 @@ public class ArraysUtils {
             for (int j = 0; j < matrix[0].length; j++) {
                 boxed[i][j] = matrix[i][j];
             }
+        }
+        return boxed;
+    }
+
+    public static Double[] box(double[] vector) {
+        Double boxed[] = new Double[vector.length];
+        for (int i = 0; i < vector.length; i++) {
+            boxed[i] = vector[i];
         }
         return boxed;
     }

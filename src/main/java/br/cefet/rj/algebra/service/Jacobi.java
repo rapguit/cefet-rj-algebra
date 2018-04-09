@@ -32,7 +32,7 @@ public class Jacobi extends Method {
                 iterativeX[i] = operateLine(i, a, vectorB, previousX);
             }
 
-            result.registerInteractionVector(iterativeX, iteration);
+            result.registerInteractionVector(iterativeX, iteration, "X");
             iteration++;
 
             if (err >= calculateErr(iterativeX, previousX)){

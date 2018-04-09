@@ -32,7 +32,7 @@ public class Seidel extends Method {
                 iterativeX[i] = operateLine(i, a, vectorB, iterativeX);
             }
 
-            result.registerInteractionVector(iterativeX, iteration);
+            result.registerInteractionVector(iterativeX, iteration, "X");
             iteration++;
 
             if (err >= calculateErr(iterativeX, previousX)){

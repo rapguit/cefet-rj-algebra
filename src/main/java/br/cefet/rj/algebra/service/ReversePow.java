@@ -88,11 +88,11 @@ public class ReversePow extends Method {
     }
 
     private double[] initIterativeVectorY(double[][] a) {
-        double[] iterativeY = new double[a.length];
-        for (int i = 0; i < iterativeY.length; i++) {
-            iterativeY[i] = 1.0;
+        double[] v = new double[a.length];
+        for (int i = 0; i < v.length; i++) {
+            v[i] = 1.0;
         }
-        return iterativeY;
+        return v;
     }
 
 }

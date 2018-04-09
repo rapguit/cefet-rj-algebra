@@ -27,4 +27,15 @@ public class IterativeUtil {
         if(val < 0) return val * -1;
         return val;
     }
+
+    public static double[][] transposedOf(double[][] l) {
+        double transposed[][] = new double[l.length][l.length];
+        for (int i = 0; i < l.length; i++) {
+            for (int j = 0; j < l.length; j++) {
+                transposed[j][i] = l[i][j];
+            }
+        }
+
+        return transposed;
+    }
 }

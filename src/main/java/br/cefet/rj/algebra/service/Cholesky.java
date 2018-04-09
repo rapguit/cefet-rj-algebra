@@ -1,9 +1,10 @@
 package br.cefet.rj.algebra.service;
 
-import br.cefet.rj.algebra.util.ArraysUtils;
-
+import static br.cefet.rj.algebra.util.IterativeUtil.transposedOf;
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
+
+import br.cefet.rj.algebra.util.ArraysUtils;
 
 public class Cholesky extends Method {
 
@@ -53,17 +54,6 @@ public class Cholesky extends Method {
 		}
 
 		return sum;
-	}
-
-	private double[][] transposedOf(double[][] l) {
-		double transposed[][] = new double[l.length][l.length];
-		for (int i = 0; i < l.length; i++) {
-			for (int j = 0; j < l.length; j++) {
-				transposed[j][i] = l[i][j];
-			}
-		}
-
-		return transposed;
 	}
 
 	private double[] calculateY(double[][] g, double[] vectorB) {

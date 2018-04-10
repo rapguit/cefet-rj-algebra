@@ -21,8 +21,12 @@ public class Result {
         matrixRegister.put(name, ArraysUtils.box(matrix));
     }
 
-    public void registerInteractionVector(Double[] interactiveX, int interact, String label) {
-        vectorRegister.put(String.format("%s_%s", label, interact), ArraysUtils.copy(interactiveX));
+    public void registerInteractionVector(Double[] vector, int interact, String label) {
+        vectorRegister.put(String.format("%s_%s", label, interact), ArraysUtils.copy(vector));
+    }
+
+    public void registerVector(Double[] vector, String label) {
+        vectorRegister.put(label, ArraysUtils.copy(vector));
     }
 
     //GET e SET

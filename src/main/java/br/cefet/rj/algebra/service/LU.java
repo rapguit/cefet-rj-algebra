@@ -17,16 +17,16 @@ public class LU extends Method {
         result.setSolution(vectorX);
     }
 
-    private double[] calculateX(Double[][] u, double[] vectorY) {
+    public static double[] calculateX(Double[][] u, double[] vectorY) {
         double vectorX[] = new double[vectorY.length];
         double up[][] = ArraysUtils.copy(u);
 
-        double sum = 0.0;
+        double sum;
 
-        for(int j=up.length-1;j>=0;j--) {
+        for (int j = up.length - 1; j >= 0; j--) {
             sum = vectorY[j];
 
-            for(int k=j+1; k <= up.length-1; k++) {
+            for (int k = j + 1; k <= up.length - 1; k++) {
                 sum = sum - up[j][k] * vectorX[k];
             }
 
@@ -37,17 +37,21 @@ public class LU extends Method {
         return vectorX;
     }
 
-    private double[] calculateY(Double[][] l, double[] vectorB) {
+    public static double[] calculateY(Double[][] l, double[] vectorB) {
         double vectorY[] = new double[vectorB.length];
         double lp[][] = ArraysUtils.copy(l);
-        double sum = 0.0;
 
         for (int i = 0; i < vectorB.length; i++) {
-            for (int j = 0; j < i+1; j++) {
-                if(i == 0) sum = vectorB[i];
-                else sum = sum - vectorY[j] * lp[i][j];
+            double sum = 0.0;
+            for (int j = 0; j < i + 1; j++) {
+                if (i == 0 & i == j) {
+                    sum = vectorB[i];
+                }else{
+                    if(i == j) sum += vectorB[j] / lp[i][j];
+                    else sum = sum - vectorY[j] * lp[i][j];
+                }
             }
-            vectorY[i] = sum + vectorB[i];
+            vectorY[i] = sum;
         }
 
         return vectorY;
@@ -58,14 +62,14 @@ public class LU extends Method {
         double l[][] = new double[a.length][a.length];
         for (int i = 0; i < a.length; i++) {
             for (int j = 0; j < a.length; j++) {
-                if(i == j) l[i][j] = 1;
+                if (i == j) l[i][j] = 1;
 
-                if(i == 0){
+                if (i == 0) {
                     u[i][j] = a[i][j];
-                    if(j > 0) l[j][i] = a[j][i] / u[i][i];
-                }else{
-                    if(i <= j) u[i][j] = a[i][j] - l[i][i-1] * u[i-1][j];
-                    if(i > j && j != 0) l[i][j] = (a[i][j] - l[i][j-1] * u[j-1][j]) / u[j][j];
+                    if (j > 0) l[j][i] = a[j][i] / u[i][i];
+                } else {
+                    if (i <= j) u[i][j] = a[i][j] - l[i][i - 1] * u[i - 1][j];
+                    if (i > j && j != 0) l[i][j] = (a[i][j] - l[i][j - 1] * u[j - 1][j]) / u[j][j];
                 }
             }
         }

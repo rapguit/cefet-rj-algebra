@@ -73,8 +73,9 @@ public class ArraysUtils {
     }
 
     public static void printVector(double[] solution) {
+        String mask = solution.length == 1 ? "%5.16f" : "%5.1f";
         for (double element : solution) {
-            System.out.printf("%5.1f", element);
+            System.out.printf(mask, element);
         }
         System.out.println();
     }
@@ -89,12 +90,6 @@ public class ArraysUtils {
     public static void printMatrix(Double[][] matrix) {
         for (Double[] row : matrix) {
             printVector(unbox(row));
-        }
-    }
-
-    public static void printMatrix(double[][] matrix) {
-        for (double[] row : matrix) {
-            printVector(row);
         }
     }
 

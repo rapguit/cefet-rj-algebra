@@ -2,7 +2,6 @@ package br.cefet.rj.algebra.service;
 
 import br.cefet.rj.algebra.model.Result;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.Map;
@@ -20,7 +19,6 @@ public class ReversePowTest {
     }
 
     @Test
-    @Ignore
     public void calculate_simple() {
         double input[][] = new double[][] {
                 {  2.0,  1.0,  0.0 },
@@ -34,22 +32,31 @@ public class ReversePowTest {
         assertThat(reg.get("Lambda_1"), equalTo(expectedSimpleSolutionLb1()));
         assertThat(reg.get("Lambda_2"), equalTo(expectedSimpleSolutionLb2()));
         assertThat(reg.get("Lambda_3"), equalTo(expectedSimpleSolutionLb3()));
-        assertThat(result.getSolution(), equalTo(expectedSimpleSolution()));
+        assertThat(reg.get("Lambda_4"), equalTo(expectedSimpleSolutionLb4()));
+        assertThat(reg.get("U_1"), equalTo(expectedSimpleSolution()));
+        assertThat(result.getSolution(), equalTo(expectedSimpleLambda()));
     }
 
+    private double[] expectedSimpleLambda() {
+        return new double[] { 1.3384913002464642 };
+    }
     private double[] expectedSimpleSolution() {
-        return new double[] { 7.44437,  4.21809, 1.33754 };
+        return new double[] { 1.0,  -0.6615086997535358, 0.1420642336535995 };
     }
 
     private double[] expectedSimpleSolutionLb1() {
-        return new double[] { 5.75, 7.000000000000001, 7.545454545454545 };
+        return new double[] { 0.7023809523809523, 1.619047619047619, 0.369047619047619 };
     }
 
     private double[] expectedSimpleSolutionLb2() {
-        return new double[] { 6.608695652173913, 7.047619047619047, 7.120481927710843 };
+        return new double[] { 0.7376916868442293, 0.8249299719887955, 0.6190476190476192 };
     }
 
     private double[] expectedSimpleSolutionLb3() {
-        return new double[] { 6.888157894736842, 7.020270270270269, 7.030456852791879 };
+        return new double[] { 0.7454152339272689, 0.7616622200662947, 0.7232659813304974 };
+    }
+
+    private double[] expectedSimpleSolutionLb4() {
+        return new double[] { 0.7471098241847849, 0.7505623202470671, 0.7442722555449234 };
     }
 }

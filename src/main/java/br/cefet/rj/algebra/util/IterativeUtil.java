@@ -23,6 +23,14 @@ public class IterativeUtil {
         return max;
     }
 
+    public static double minModOf(double[] v) {
+        double min = v[0];
+        for (double val : v) {
+            if (mod(val) < min) min = mod(val);
+        }
+        return min;
+    }
+
     public static double mod(double val) {
         if(val < 0) return val * -1;
         return val;

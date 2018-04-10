@@ -28,6 +28,7 @@ public class Pow extends Method {
         double[] iterativeLambda = new double[iterativeY.length];
         double[] previousLambda = copy(iterativeLambda);
         double iterativeAlpha = 0.0;
+        int lambdaIndexFound = -1;
 
         int iteration = 1;
 
@@ -50,11 +51,16 @@ public class Pow extends Method {
                     iterativeLambda[i] = iterativeZ[i] / previousY[i];
                 }
 
-                if (err >= calculateErr(iterativeLambda, previousLambda)) {
-                    break;
-                }
+                result.registerInteractionVector(box(iterativeLambda), iteration - 1, "Lambda");
 
-                result.registerInteractionVector(box(iterativeLambda), iteration-1, "Lambda");
+                if(iteration > 2) {
+
+                    lambdaIndexFound = calculateErr(err, iterativeLambda, previousLambda);
+                    if (lambdaIndexFound != -1) {
+                        break;
+                    }
+
+                }
             }
 
             previousLambda = copy(iterativeLambda);
@@ -62,15 +68,25 @@ public class Pow extends Method {
             iteration++;
         }
 
-        result.setSolution(iterativeY);
+        result.registerInteractionVector(box(iterativeY), 1, "U");
+        double sol[] = new double[1];
+        sol[0] = iterativeLambda[lambdaIndexFound];
+        result.setSolution(sol);
     }
 
-    private double calculateErr(double[] iterativeLambda, double[] previousLambda) {
-        double err[] = new double[iterativeLambda.length];
+    private int calculateErr(double err, double[] iterativeLambda, double[] previousLambda) {
+        double lowestErr = err;
+        int lowestErrIndx = -1;
         for (int i = 0; i < iterativeLambda.length; i++) {
-            err[i] = mod(iterativeLambda[i] - previousLambda[i]) / mod(previousLambda[i]);
+            double _err = mod(iterativeLambda[i] - previousLambda[i]) / mod(previousLambda[i]);
+            if(err >= _err) {
+                if(_err < lowestErr){
+                    lowestErr = _err;
+                    lowestErrIndx = i;
+                }
+            }
         }
-        return maxModOf(err);
+        return lowestErrIndx;
     }
 
     private double[] initIterativeVectorY(double[][] a) {

@@ -27,7 +27,8 @@ public class ReversePow extends Method {
         double iterativeZ[] = new double[iterativeY.length];
         double[] iterativeLambda = new double[iterativeY.length];
         double[] previousLambda = copy(iterativeLambda);
-        double iterativeAlpha = 0.0;
+        double iterativeAlpha;
+        int lambdaIndexFound = -1;
 
         LU.calculateLU(a, result);
 
@@ -37,23 +38,10 @@ public class ReversePow extends Method {
         int iteration = 1;
 
         while (iteration < max) {
-            double lz[] = new double[iterativeY.length];
-            for (int i = 0; i < l.length; i++) {
-                double sum = 0.0;
-                for (int j = 0; j < l[0].length; j++) {
-                    sum += 1 / l[i][j] * iterativeY[j];
-                }
-                lz[i] = sum;
-            }
+            double w[] = LU.calculateY(l, iterativeY);
 
-            for (int i = 0; i < u.length; i++) {
-                double sum = 0.0;
-                for (int j = 0; j < u[0].length; j++) {
-                    sum += 1 / u[i][j] * lz[j];
-                }
-                iterativeZ[i] = sum;
-                iterativeAlpha = maxModOf(iterativeZ);
-            }
+            iterativeZ = LU.calculateX(u, w);
+            iterativeAlpha = maxModOf(iterativeZ);
 
             for (int i = 0; i < iterativeY.length; i++) {
                 iterativeY[i] = (1 / iterativeAlpha) * iterativeZ[i];
@@ -64,11 +52,16 @@ public class ReversePow extends Method {
                     iterativeLambda[i] = iterativeZ[i] / previousY[i];
                 }
 
-                if (err >= calculateErr(iterativeLambda, previousLambda)) {
-                    break;
-                }
+                result.registerInteractionVector(box(iterativeLambda), iteration - 1, "Lambda");
 
-                result.registerInteractionVector(box(iterativeLambda), iteration-1, "Lambda");
+                if (iteration > 2) {
+
+                    lambdaIndexFound = calculateErr(err, iterativeLambda, previousLambda);
+                    if (lambdaIndexFound != -1) {
+                        break;
+                    }
+
+                }
             }
 
             previousLambda = copy(iterativeLambda);
@@ -76,15 +69,25 @@ public class ReversePow extends Method {
             iteration++;
         }
 
-        result.setSolution(iterativeY);
+        result.registerInteractionVector(box(iterativeY), 1, "U");
+        double sol[] = new double[1];
+        sol[0] = 1 / iterativeLambda[lambdaIndexFound];
+        result.setSolution(sol);
     }
 
-    private double calculateErr(double[] iterativeLambda, double[] previousLambda) {
-        double err[] = new double[iterativeLambda.length];
+    private int calculateErr(double err, double[] iterativeLambda, double[] previousLambda) {
+        double lowestErr = err;
+        int lowestErrIndx = -1;
         for (int i = 0; i < iterativeLambda.length; i++) {
-            err[i] = mod(iterativeLambda[i] - previousLambda[i]) / mod(previousLambda[i]);
+            double _err = mod(iterativeLambda[i] - previousLambda[i]) / mod(previousLambda[i]);
+            if(err >= _err) {
+                if(_err < lowestErr){
+                    lowestErr = _err;
+                    lowestErrIndx = i;
+                }
+            }
         }
-        return maxModOf(err);
+        return lowestErrIndx;
     }
 
     private double[] initIterativeVectorY(double[][] a) {

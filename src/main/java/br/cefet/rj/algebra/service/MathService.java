@@ -16,12 +16,15 @@ public class MathService {
     @Value("${csr}")
     private boolean csr;
 
+    @Value("${ext_m}")
+    private boolean extendedMatrix;
+
     @Autowired private MethodFactory factory;
     @Autowired private CSRMethodFactory csrFactory;
 
     public Result calculate(String method, String size, String file) {
         if(csr){
-            CSRData input = FileUtils.csr_load(file);
+            CSRData input = FileUtils.csr_load(file, extendedMatrix);
             return csrFactory.get(method).calculateResult(input);
         }
 

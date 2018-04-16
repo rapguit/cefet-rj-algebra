@@ -17,6 +17,9 @@ public class CSRMethodFactory {
 	@Value("${w}")
 	private double relaxationParam;
 
+	@Value("${ext_m}")
+	private boolean extendedMatrix;
+
 	public CSRMethod get(String method) {
 		if(method.equals("jacobi")){
 		}

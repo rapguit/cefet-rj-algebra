@@ -76,29 +76,30 @@ public class FileUtils {
         return col;
     }
 
-    public static CSRData csr_load(String file) {
+    public static CSRData csr_load(String file, boolean extendedMatrix) {
         try {
-            return _csr_load(file);
+            return _csr_load(file, extendedMatrix);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
     }
 
-    private static CSRData _csr_load(String file) throws IOException {
+    private static CSRData _csr_load(String file, boolean extendedMatrix) throws IOException {
         List<String> lines = Files.lines(Paths.get(file)).collect(toList());
         int size = Integer.parseInt(lines.get(1).split(" ")[0]);
-        CSRData data = new CSRData();
+        int sizeM = extendedMatrix? size-1 : size;
+        CSRData data = new CSRData(size, sizeM);
 
         for (int i = 2; i < size; i++) {
             String[] chunk = lines.get(i).split(" ");
-            int n = Integer.parseInt(chunk[0]);
-            int m = Integer.parseInt(chunk[1]);
+            int row = Integer.parseInt(chunk[0]);
+            int col = Integer.parseInt(chunk[1]);
 
             String strData = chunk[2].trim();
             if(strData.isEmpty()) strData = chunk[3].trim();
 
             double value = Double.parseDouble(strData);
-            data.register(n, m, value);
+            data.register(row, col, value);
         }
 
         return data;

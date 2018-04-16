@@ -1,5 +1,6 @@
 package br.cefet.rj.algebra.service.csr;
 
+import static br.cefet.rj.algebra.util.ArraysUtils.copy;
 import static br.cefet.rj.algebra.util.ArraysUtils.unbox;
 import static br.cefet.rj.algebra.util.IterativeUtil.maxModOf;
 import static br.cefet.rj.algebra.util.IterativeUtil.mod;
@@ -31,36 +32,36 @@ public class SORCompact extends CSRMethod {
 	public void calculate(CSRData input) {
 		CSRData a = input.a();
 		CSRData vectorB = input.b();
-//		Double iterativeX[] = initIterativeVectorX(vectorB);
-//		Double previousX[] = copy(iterativeX);
+		Double iterativeX[] = initIterativeVectorX(vectorB.getN());
+		Double previousX[] = copy(iterativeX);
 		int iteration = 1;
 
 		while (iteration < max) {
-//			for (int i = 0; i < iterativeX.length; i++) {
-////				iterativeX[i] = operateLine(i, a, vectorB, iterativeX);
-//			}
+			for (int i = 0; i < iterativeX.length; i++) {
+				iterativeX[i] = operateLine(i, a, vectorB, iterativeX);
+			}
 
-//			result.registerInteractionVector(iterativeX, iteration, "X");
+			result.registerInteractionVector(iterativeX, iteration, "X");
 			iteration++;
-//
-//			if (err >= calculateErr(iterativeX, previousX)){
-//				break;
-//			}
 
-//			previousX = copy(iterativeX);
+			if (err >= calculateErr(iterativeX, previousX)){
+				break;
+			}
+
+			previousX = copy(iterativeX);
 		}
 
-//		result.setSolution(unbox(result.getVectorRegister().get("X_"+(iteration-1))));
+		result.setSolution(unbox(result.getVectorRegister().get("X_"+(iteration-1))));
 	}
 
-	private double operateLine(int i, double[][] a, double[] b, Double[] iterativeX) {
-		double div =  a[i][i];
-		double sum = b[i] / div;
+	private double operateLine(int i, CSRData a, CSRData b, Double[] iterativeX) {
+		double div =  a.read(i , i);
+		double sum = b.read(i,0) / div;
 		double x = 1.0;
 
-		for (int j = 0; j <b.length; j++) {
+		for (int j = 0; j <b.getN(); j++) {
 			if(i != j) {
-				sum -= (a[i][j] / div) * iterativeX[j];
+				sum -= (a.read(i,j) / div) * iterativeX[j];
 			}else {
 				x = iterativeX[i];
 			}
@@ -78,8 +79,8 @@ public class SORCompact extends CSRMethod {
 		return maxModOf(err) / maxModOf(unbox(iterativeX));
 	}
 
-	private Double[] initIterativeVectorX(double[] vectorB) {
-		Double[] x = new Double[vectorB.length];
+	private Double[] initIterativeVectorX(int size) {
+		Double[] x = new Double[size];
 		for (int i = 0; i < x.length; i++) {
 			x[i] = 0.0D;
 		}

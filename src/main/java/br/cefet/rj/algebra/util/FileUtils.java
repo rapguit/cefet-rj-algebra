@@ -1,5 +1,7 @@
 package br.cefet.rj.algebra.util;
 
+import static java.util.stream.Collectors.toList;
+
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
@@ -8,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.toList;
+import br.cefet.rj.algebra.model.CSRData;
 
 public class FileUtils {
     public static double[][] load(String size, String file) {
@@ -72,5 +74,33 @@ public class FileUtils {
         });
 
         return col;
+    }
+
+    public static CSRData csr_load(String file) {
+        try {
+            return _csr_load(file);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
+    private static CSRData _csr_load(String file) throws IOException {
+        List<String> lines = Files.lines(Paths.get(file)).collect(toList());
+        int size = Integer.parseInt(lines.get(1).split(" ")[0]);
+        CSRData data = new CSRData();
+
+        for (int i = 2; i < size; i++) {
+            String[] chunk = lines.get(i).split(" ");
+            int n = Integer.parseInt(chunk[0]);
+            int m = Integer.parseInt(chunk[1]);
+
+            String strData = chunk[2].trim();
+            if(strData.isEmpty()) strData = chunk[3].trim();
+
+            double value = Double.parseDouble(strData);
+            data.register(n, m, value);
+        }
+
+        return data;
     }
 }

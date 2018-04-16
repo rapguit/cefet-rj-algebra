@@ -50,7 +50,7 @@ public class SORCompact extends CSRMethod {
 //			previousX = copy(iterativeX);
 		}
 
-		result.setSolution(unbox(result.getVectorRegister().get("X_"+(iteration-1))));
+//		result.setSolution(unbox(result.getVectorRegister().get("X_"+(iteration-1))));
 	}
 
 	private double operateLine(int i, double[][] a, double[] b, Double[] iterativeX) {

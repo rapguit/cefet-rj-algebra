@@ -82,7 +82,8 @@ public class ArraysUtils {
 
     public static void printVectorRaw(double[] solution) {
         for (double element : solution) {
-            System.out.printf("%5.16f \t", element);
+            if (element >= 0) System.out.printf(" %5.16f \t", element);
+            else System.out.printf("%5.16f \t", element);
         }
         System.out.println();
     }
@@ -90,6 +91,12 @@ public class ArraysUtils {
     public static void printMatrix(Double[][] matrix) {
         for (Double[] row : matrix) {
             printVector(unbox(row));
+        }
+    }
+
+    public static void printMatrixRaw(Double[][] matrix) {
+        for (Double[] row : matrix) {
+            printVectorRaw(unbox(row));
         }
     }
 
@@ -118,6 +125,16 @@ public class ArraysUtils {
         }
 
         return unboxed;
+    }
+
+    public static double[][] changeCol4Row(double[][] matrix){
+        double changed[][] = new double[matrix.length][matrix.length];
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix.length; j++) {
+                changed[i][j] = matrix[j][i];
+            }
+        }
+        return changed;
     }
 
 }

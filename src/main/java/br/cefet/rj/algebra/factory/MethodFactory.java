@@ -1,18 +1,8 @@
 package br.cefet.rj.algebra.factory;
 
+import br.cefet.rj.algebra.service.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import br.cefet.rj.algebra.service.Cholesky;
-import br.cefet.rj.algebra.service.GaussMethod;
-import br.cefet.rj.algebra.service.GramSchmidt;
-import br.cefet.rj.algebra.service.Jacobi;
-import br.cefet.rj.algebra.service.LU;
-import br.cefet.rj.algebra.service.Method;
-import br.cefet.rj.algebra.service.Pow;
-import br.cefet.rj.algebra.service.ReversePow;
-import br.cefet.rj.algebra.service.SOR;
-import br.cefet.rj.algebra.service.Seidel;
 
 @Component
 public class MethodFactory {
@@ -53,6 +43,9 @@ public class MethodFactory {
         }
         if(method.equals("gs")){
             return new GramSchmidt();
+        }
+        if(method.equals("gradconj")){
+            return new ConjugatedGradient(maxIterations, errThreshold);
         }
 
         throw new IllegalArgumentException("unknown method!");

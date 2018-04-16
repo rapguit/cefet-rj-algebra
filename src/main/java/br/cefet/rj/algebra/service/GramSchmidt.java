@@ -2,6 +2,8 @@ package br.cefet.rj.algebra.service;
 
 import static br.cefet.rj.algebra.util.ArraysUtils.changeCol4Row;
 import static br.cefet.rj.algebra.util.ArraysUtils.copy;
+import static br.cefet.rj.algebra.util.IterativeUtil.mult;
+import static br.cefet.rj.algebra.util.IterativeUtil.plus;
 import static br.cefet.rj.algebra.util.IterativeUtil.transposedOf;
 import static java.lang.Math.pow;
 import static java.lang.Math.sqrt;
@@ -50,23 +52,6 @@ public class GramSchmidt extends Method {
 		}
 
 		return norm;
-	}
-
-	private double mult(double[] u, double[] v) {
-		double sum = 0.0;
-		for (int i = 0; i < u.length; i++) {
-			sum += u[i] * v[i];
-		}
-
-		return sum;
-	}
-
-	private double[] plus(double[] u, double[] v) {
-		double result[] = new double[u.length];
-		for (int i = 0; i < result.length; i++) {
-			result[i] = u[i] + v[i];
-		}
-		return result;
 	}
 
 	private double plusPow(double[] v) {

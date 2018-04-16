@@ -36,6 +36,49 @@ public class IterativeUtil {
         return val;
     }
 
+    public static double mult(double[] u, double[] v) {
+        double sum = 0.0;
+        for (int i = 0; i < u.length; i++) {
+            sum += u[i] * v[i];
+        }
+
+        return sum;
+    }
+
+    public static double[] mult(double[][] m, double[] v) {
+        double[] result = new double[v.length];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = mult(m[i], v);
+        }
+
+        return result;
+    }
+
+    public static double[] mult(double scalar, double[] v) {
+        double[] result = new double[v.length];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = scalar * v[i];
+        }
+
+        return result;
+    }
+
+    public static double[] plus(double[] u, double[] v) {
+        double result[] = new double[u.length];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = u[i] + v[i];
+        }
+        return result;
+    }
+
+    public static double[] minus(double[] u, double[] v) {
+        double result[] = new double[u.length];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = u[i] - v[i];
+        }
+        return result;
+    }
+
     public static double[][] transposedOf(double[][] l) {
         double transposed[][] = new double[l.length][l.length];
         for (int i = 0; i < l.length; i++) {
